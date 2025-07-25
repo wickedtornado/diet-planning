@@ -1,5 +1,6 @@
-Flask==3.0.0
+flask==3.0.0
 groq==0.4.1
-requests==2.32.4
-reportlab==4.0.8
+requests==2.31.0
+reportlab==4.0.7
+python-dotenv==1.0.0
 gunicorn==21.2.0
