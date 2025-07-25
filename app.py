@@ -19,6 +19,7 @@ import os
 # Import our nutrition database integration
 from nutrition_db import NutritionDatabaseIntegration
 
+
 app = Flask(__name__)
 
 # Production configuration
@@ -26,10 +27,8 @@ app.config['ENV'] = os.getenv('FLASK_ENV', 'production')
 app.config['DEBUG'] = os.getenv('FLASK_DEBUG', 'False').lower() == 'true'
 app.config['TESTING'] = False
 
-client = Groq(
-    api_key="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"
-)
-
+GROQ_API_KEY = os.environ.get('GROQ_API_KEY', "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")
+client = Groq(api_key=GROQ_API_KEY)
 # Get API keys
 USDA_API_KEY = "bPS4XM0z4cbbpuA7lK5qChEpnfhMGXTfYvfnctOQ"
 if not USDA_API_KEY:
@@ -619,6 +618,6 @@ def after_request(response):
 
 
 # Production WSGI application
-    if __name__ == '__main__':
-        port = int(os.environ.get('PORT', 5001))
-        app.run(host='0.0.0.0', port=port, debug=False)
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5001))
+    app.run(host='0.0.0.0', port=port, debug=False)
