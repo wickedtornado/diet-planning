@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halo Health Eats - AI-Powered Nutrition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #ecfdf5 0%, #f0fdfa 35%, #ecfeff 100%);
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #059669, #0d9488);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .gradient-button {
+            background: linear-gradient(90deg, #059669, #0d9488);
+            transition: all 0.3s ease;
+        }
+        .gradient-button:hover {
+            background: linear-gradient(90deg, #047857, #0f766e);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(5, 150, 105, 0.3);
+        }
+        .feature-card {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.9);
+        }
+        .feature-icon {
+            background: linear-gradient(135deg, #059669, #0d9488);
+        }
+        .badge {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(5, 150, 105, 0.2);
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        .sparkle-icon {
+            background: linear-gradient(135deg, #059669, #0d9488);
+        }
+    </style>
+</head>
+<body class="min-h-screen gradient-bg">
+    <!-- Hero Section -->
+    <div class="container mx-auto px-4 py-16 sm:py-24 max-w-6xl">
+        <div class="text-center">
+            <!-- Logo and Title -->
+
+
+
+            <div data-filename="pages/LandingPage" data-linenumber="25" data-visual-selector-id="pages/LandingPage25" data-source-location="pages/LandingPage:25:10" data-dynamic-content="false" class="flex items-center justify-center gap-2 mb-6">
+                <div data-filename="pages/LandingPage" data-linenumber="26" data-visual-selector-id="pages/LandingPage26" data-source-location="pages/LandingPage:26:12" data-dynamic-content="false" class="w-12 h-12 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles w-6 h-6 text-white" data-filename="pages/LandingPage" data-linenumber="27" data-visual-selector-id="pages/LandingPage27" data-source-location="pages/LandingPage:27:14" data-dynamic-content="false">
+                        <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path><path d="M20 3v4"></path><path d="M22 5h-4"></path><path d="M4 17v2"></path><path d="M5 18H3"></path></svg></div><h1 data-filename="pages/LandingPage" data-linenumber="29" data-visual-selector-id="pages/LandingPage29" data-source-location="pages/LandingPage:29:12" data-dynamic-content="false" class="text-4xl sm:text-6xl font-bold"><span data-filename="pages/LandingPage" data-linenumber="30" data-visual-selector-id="pages/LandingPage30" data-source-location="pages/LandingPage:30:14" data-dynamic-content="false" class="bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Halo Health Eats</span></h1></div>
+            <!-- Subtitle -->
+            <p class="text-xl sm:text-2xl text-gray-600 mb-8 leading-relaxed max-w-4xl mx-auto">
+                Your AI-powered nutrition companion that creates personalized diet plans
+                based on your unique health profile, lifestyle, and goals
+            </p>
+
+            <!-- Badges -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+                <div class="badge px-4 py-2 rounded-full text-sm font-medium text-emerald-700 border-emerald-300">
+                    🤖 Powered by Advanced AI
+                </div>
+                <div class="badge px-4 py-2 rounded-full text-sm font-medium text-teal-700 border-teal-300">
+                    🏥 Medically Informed
+                </div>
+                <div class="badge px-4 py-2 rounded-full text-sm font-medium text-cyan-700 border-cyan-300">
+                    🎯 100% Personalized
+                </div>
+            </div>
+
+            <!-- CTA Button -->
+            <button
+                onclick="window.location.href='test.html'"
+                class="gradient-button text-white px-8 py-4 text-xl font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center mb-6"
+            >
+                Get My Personalized Plan
+                <i class="fas fa-arrow-right ml-3"></i>
+            </button>
+
+            <!-- Sub-text -->
+        </div>
+    </div>
+
+    <!-- Why Choose Section -->
+    <div class="container mx-auto px-4 py-16 max-w-6xl">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-4">
+                Why Choose Halo Health Eats?
+            </h2>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                Our AI considers every aspect of your health and lifestyle to create the perfect nutrition plan for you
+            </p>
+        </div>
+
+        <!-- Feature Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Feature 1 - AI Intelligence -->
+            <div class="feature-card rounded-xl p-8 text-center">
+                <div class="w-16 h-16 feature-icon rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-brain text-white text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">AI-Powered Intelligence</h3>
+                <p class="text-gray-600 leading-relaxed">
+                    Advanced algorithms analyze your health data, preferences, and goals to create optimal meal plans
+                </p>
+            </div>
+
+            <!-- Feature 2 - Medical Safety -->
+            <div class="feature-card rounded-xl p-8 text-center">
+                <div class="w-16 h-16 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-shield-alt text-white text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Medically Informed</h3>
+                <p class="text-gray-600 leading-relaxed">
+                    Considers your medical conditions, allergies, and medications to ensure safe and effective nutrition
+                </p>
+            </div>
+
+            <!-- Feature 3 - Goal Oriented -->
+            <div class="feature-card rounded-xl p-8 text-center">
+                <div class="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-bullseye text-white text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Goal-Oriented</h3>
+                <p class="text-gray-600 leading-relaxed">
+                    Whether you want to lose weight, gain muscle, or manage health conditions - we've got you covered
+                </p>
+            </div>
+        </div>
+
+        <!-- Second Row of Features -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
+            <!-- Feature 4 - Lifestyle Friendly -->
+            <div class="feature-card rounded-xl p-8 text-center">
+                <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-heart text-white text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Lifestyle Friendly</h3>
+                <p class="text-gray-600 leading-relaxed">
+                    Respects your dietary preferences, budget, cuisine choices, and daily routine
+                </p>
+            </div>
+
+            <!-- Feature 5 - Instant Results -->
+            <div class="feature-card rounded-xl p-8 text-center">
+                <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-clock text-white text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Instant Results</h3>
+                <p class="text-gray-600 leading-relaxed">
+                    Get your personalized diet plan in seconds, not days. No waiting, no complicated processes
+                </p>
+            </div>
+
+            <!-- Feature 6 - For Everyone -->
+            <div class="feature-card rounded-xl p-8 text-center">
+                <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-users text-white text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">For Everyone</h3>
+                <p class="text-gray-600 leading-relaxed">
+                    Suitable for all dietary types - vegetarian, non-vegetarian, vegan, and special dietary requirements
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- How It Works Section -->
+    <div class="py-16">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-4">
+                    How It Works
+                </h2>
+                <p class="text-lg text-gray-600">
+                    Simple, fast, and effective - get your plan in 3 easy steps
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <!-- Step 1 -->
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-3xl font-bold text-white">1</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Share Your Info</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Tell us about your health, goals, preferences, and lifestyle in our comprehensive assessment
+                    </p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-3xl font-bold text-white">2</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">AI Analysis</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Our advanced AI processes your information and creates a customized nutrition plan
+                    </p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-3xl font-bold text-white">3</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Get Your Plan</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        Receive your detailed meal plan with recipes, portions, and personalized recommendations
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Final CTA Section -->
+    <div class="container mx-auto px-4 py-16 text-center max-w-4xl">
+        <h2 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-6">
+            Ready to Transform Your Health?
+        </h2>
+        <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+            Join thousands who have already improved their nutrition with personalized AI-powered diet plans
+        </p>
+
+        <button
+            onclick="window.location.href='test.html'"
+            class="gradient-button text-white px-10 py-4 text-xl font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 inline-flex items-center mb-8"
+        >
+            Start Your Journey Now
+            <i class="fas fa-arrow-right ml-3"></i>
+        </button>
+
+        <div class="flex items-center justify-center gap-8 text-sm text-gray-500">
+            <div class="flex items-center gap-2">
+                <i class="fas fa-check-circle text-emerald-500"></i>
+                <span>100% Free</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <i class="fas fa-check-circle text-emerald-500"></i>
+                <span>No Registration</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <i class="fas fa-check-circle text-emerald-500"></i>
+                <span>Instant Results</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Company Info -->
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-emerald-500 flex items-center justify-center mr-3">
+                            <i class="fas fa-sparkles text-white text-lg"></i>
+                        </div>
+                        <h3 class="text-xl font-bold">Halo Health Eats</h3>
+                    </div>
+                    <p class="text-gray-400 mb-4">AI-powered nutrition for healthier living.</p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/" class="text-gray-400 hover:text-white transition">Home</a></li>
+                        <li><a href="test.html" class="text-gray-400 hover:text-white transition">Diet Planner</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">About</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Features -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Features</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">AI Diet Plans</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Health Assessment</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">BMI Analysis</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Nutrition Tips</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-center text-gray-400">
+                            <i class="fas fa-envelope mr-3"></i> hello@halohealtheats.com
+                        </li>
+                        <li class="flex items-center text-gray-400">
+                            <i class="fas fa-phone-alt mr-3"></i> (555) 123-4567
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 Halo Health Eats. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Profile Assessment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .progress-bar {
+            height: 6px;
+            transition: width 0.3s ease;
+        }
+        .form-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        .form-section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .toggle-checkbox:checked {
+            right: 0;
+            background-color: #4ade80;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #4ade80;
+        }
+       /* Custom animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #3b82f6, #10b981);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #3b82f6;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-green-50 min-h-screen">
+<!-- Header -->
+    <header class="sticky top-0 z-50 bg-white shadow-md">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+               <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sparkles w-4 h-4 text-white">
+                            <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path>
+                            <path d="M20 3v4"></path><path d="M22 5h-4"></path><path d="M4 17v2"></path><path d="M5 18H3"></path>
+                        </svg>
+                    </div>
+                    <h1 class="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Halo Health Eats</h1>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="/" class="nav-link text-gray-700 hover:text-blue-600 font-medium">Home</a>
+                    <a href="#" class="nav-link text-gray-700 hover:text-blue-600 font-medium">Services</a>
+                    <a href="#" class="nav-link text-gray-700 hover:text-blue-600 font-medium">About</a>
+                    <a href="#" class="nav-link text-gray-700 hover:text-blue-600 font-medium">Contact</a>
+                </nav>
+
+                <!-- Mobile menu button -->
+                <button id="mobile-menu-button" class="md:hidden text-gray-700 focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4">
+                <a href="/" class="block py-2 text-gray-700 hover:text-blue-600">Home</a>
+                <a href="#" class="block py-2 text-gray-700 hover:text-blue-600">Services</a>
+                <a href="#" class="block py-2 text-gray-700 hover:text-blue-600">About</a>
+                <a href="#" class="block py-2 text-gray-700 hover:text-blue-600">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto px-4 py-12 max-w-4xl">
+        <!-- Header -->
+        <header class="text-center mb-10">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">Health Profile Assessment</h1>
+            <p class="text-gray-600">Help us create your personalized health plan by answering these questions</p>
+
+            <!-- Progress Bar -->
+            <div class="mt-8 mb-6">
+                <div class="flex justify-between mb-2">
+                    <span class="text-sm font-medium text-gray-700">Progress</span>
+                    <span id="progress-percentage" class="text-sm font-medium text-gray-700">0%</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                    <div id="progress-bar" class="progress-bar bg-green-500 rounded-full" style="width: 0%"></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Form Container -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <form id="health-form" class="p-6 md:p-8">
+                <!-- Section 1: Basic Information -->
+                <div class="form-section active" id="section-1">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-6 flex items-center">
+                        <span class="flex items-center justify-center w-8 h-8 bg-blue-500 text-white rounded-full mr-3">1</span>
+                        Basic Information
+                    </h2>
+
+                    <div class="space-y-5">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                                <label for="height" class="block text-sm font-medium text-gray-700 mb-1">Height (cm)</label>
+                                <div class="relative">
+                                    <input type="number" id="height" name="height" min="100" max="250"
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                           placeholder="e.g. 175" required>
+                                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                        <i class="fas fa-ruler-vertical text-gray-400"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="weight" class="block text-sm font-medium text-gray-700 mb-1">Weight (kg)</label>
+                                <div class="relative">
+                                    <input type="number" id="weight" name="weight" min="30" max="200"
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                           placeholder="e.g. 68" required>
+                                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                        <i class="fas fa-weight text-gray-400"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div>
+                                <label for="age" class="block text-sm font-medium text-gray-700 mb-1">Age</label>
+                                <div class="relative">
+                                    <input type="number" id="age" name="age" min="10" max="120"
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                           placeholder="e.g. 35" required>
+                                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                        <i class="fas fa-birthday-cake text-gray-400"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="budget" class="block text-sm font-medium text-gray-700 mb-1">Monthly Grocery Budget ($)</label>
+                                <div class="relative">
+                                    <input type="number" id="budget" name="budget" min="0"
+                                           class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                           placeholder="e.g. 200" required>
+                                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                                        <i class="fas fa-dollar-sign text-gray-400"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-3">Gender</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="radio" name="gender" value="male" class="sr-only peer" checked>
+                                    <div class="w-full p-4 border-2 border-gray-200 rounded-lg peer-checked:border-blue-500 peer-checked:bg-blue-50 transition">
+                                        <div class="flex items-center justify-center space-x-2">
+                                            <i class="fas fa-mars text-xl text-blue-600"></i>
+                                            <span class="font-medium">Male</span>
+                                        </div>
+                                    </div>
+                                </label>
+
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="radio" name="gender" value="female" class="sr-only peer">
+                                    <div class="w-full p-4 border-2 border-gray-200 rounded-lg peer-checked:border-blue-500 peer-checked:bg-blue-50 transition">
+                                        <div class="flex items-center justify-center space-x-2">
+                                            <i class="fas fa-venus text-xl text-pink-600"></i>
+                                            <span class="font-medium">Female</span>
+                                        </div>
+                                    </div>
+                                </label>
+
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="radio" name="gender" value="other" class="sr-only peer">
+                                    <div class="w-full p-4 border-2 border-gray-200 rounded-lg peer-checked:border-blue-500 peer-checked:bg-blue-50 transition">
+                                        <div class="flex items-center justify-center space-x-2">
+                                            <i class="fas fa-genderless text-xl text-purple-600"></i>
+                                            <span class="font-medium">Other</span>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between mt-10">
+                        <button type="button" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg font-medium opacity-0 cursor-default">
+                            Back
+                        </button>
+                        <button type="button" onclick="nextSection(1, 2)" class="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition">
+                            Next <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Section 2: Health Conditions -->
+                <div class="form-section" id="section-2">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-6 flex items-center">
+                        <span class="flex items-center justify-center w-8 h-8 bg-blue-500 text-white rounded-full mr-3">2</span>
+                        Health & Medical Information
+                    </h2>
+
+                    <div class="space-y-5">
+                        <div>
+                            <label for="diagnosis" class="block text-sm font-medium text-gray-700 mb-1">Primary Diagnosis/Medical Condition</label>
+                            <input type="text" id="diagnosis" name="diagnosis"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                   placeholder="e.g. Type 2 Diabetes, Hypertension, Healthy">
+                        </div>
+
+                        <div>
+                            <label for="preexisting" class="block text-sm font-medium text-gray-700 mb-1">Pre-existing Conditions</label>
+                            <input type="text" id="preexisting" name="preexisting"
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                   placeholder="e.g. Diabetes, Hypertension, Heart Disease">
+                        </div>
+
+                        <div>
+                            <label for="medicines" class="block text-sm font-medium text-gray-700 mb-1">Current Medications</label>
+                            <textarea id="medicines" name="medicines" rows="2"
+                                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                      placeholder="List any medications you're currently taking (e.g. Metformin, Lisinopril)"></textarea>
+                        </div>
+
+                        <div>
+                            <label for="allergies" class="block text-sm font-medium text-gray-700 mb-1">Allergies & Food Restrictions</label>
+                            <textarea id="allergies" name="allergies" rows="2"
+                                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                      placeholder="List any food allergies, intolerances, or dietary restrictions"></textarea>
+                        </div>
+
+                        <div>
+                            <label for="additional-health" class="block text-sm font-medium text-gray-700 mb-1">Additional Health Information</label>
+                            <textarea id="additional-health" name="additional-health" rows="3"
+                                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                      placeholder="Any fractures, injuries, or other health concerns we should know about"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between mt-10">
+                        <button type="button" onclick="prevSection(2, 1)" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition">
+                            <i class="fas fa-arrow-left mr-2"></i> Back
+                        </button>
+                        <button type="button" onclick="nextSection(2, 3)" class="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition">
+                            Next <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Section 3: Dietary Preferences & Lifestyle -->
+                <div class="form-section" id="section-3">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-6 flex items-center">
+                        <span class="flex items-center justify-center w-8 h-8 bg-blue-500 text-white rounded-full mr-3">3</span>
+                        Dietary Preferences & Lifestyle
+                    </h2>
+
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-3">Diet Type</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="radio" name="diet-type" value="vegetarian" class="sr-only peer" checked>
+                                    <div class="w-full p-4 border-2 border-gray-200 rounded-lg peer-checked:border-blue-500 peer-checked:bg-blue-50 transition">
+                                        <div class="flex flex-col items-center">
+                                            <i class="fas fa-leaf text-2xl text-green-600 mb-2"></i>
+                                            <span class="font-medium">Vegetarian</span>
+                                        </div>
+                                    </div>
+                                </label>
+
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="radio" name="diet-type" value="non-vegetarian" class="sr-only peer">
+                                    <div class="w-full p-4 border-2 border-gray-200 rounded-lg peer-checked:border-blue-500 peer-checked:bg-blue-50 transition">
+                                        <div class="flex flex-col items-center">
+                                            <i class="fas fa-drumstick-bite text-2xl text-red-600 mb-2"></i>
+                                            <span class="font-medium">Non-Vegetarian</span>
+                                        </div>
+                                    </div>
+                                </label>
+
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="radio" name="diet-type" value="vegan" class="sr-only peer">
+                                    <div class="w-full p-4 border-2 border-gray-200 rounded-lg peer-checked:border-blue-500 peer-checked:bg-blue-50 transition">
+                                        <div class="flex flex-col items-center">
+                                            <i class="fas fa-seedling text-2xl text-green-700 mb-2"></i>
+                                            <span class="font-medium">Vegan</span>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-3">What kind of diet are you looking for?</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="radio" name="diet-goal" value="balanced" class="sr-only peer" checked>
+                                    <div class="w-full p-4 border-2 border-gray-200 rounded-lg peer-checked:border-blue-500 peer-checked:bg-blue-50 transition">
+                                        <div class="flex flex-col items-center">
+                                            <i class="fas fa-balance-scale text-2xl text-green-600 mb-2"></i>
+                                            <span class="font-medium">Balanced Diet</span>
+                                        </div>
+                                    </div>
+                                </label>
+
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="radio" name="diet-goal" value="lose_fat" class="sr-only peer">
+                                    <div class="w-full p-4 border-2 border-gray-200 rounded-lg peer-checked:border-blue-500 peer-checked:bg-blue-50 transition">
+                                        <div class="flex flex-col items-center">
+                                            <i class="fas fa-weight text-2xl text-red-600 mb-2"></i>
+                                            <span class="font-medium">Lose Fat</span>
+                                        </div>
+                                    </div>
+                                </label>
+
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="radio" name="diet-goal" value="gain_muscle" class="sr-only peer">
+                                    <div class="w-full p-4 border-2 border-gray-200 rounded-lg peer-checked:border-blue-500 peer-checked:bg-blue-50 transition">
+                                        <div class="flex flex-col items-center">
+                                            <i class="fas fa-dumbbell text-2xl text-blue-600 mb-2"></i>
+                                            <span class="font-medium">Gain Muscle</span>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-3">Exercise/Activity Level</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <label class="flex items-center space-x-3">
+                                    <input type="radio" name="exercise" value="sedentary" class="h-5 w-5 text-blue-600 focus:ring-blue-500">
+                                    <span class="text-gray-700">Sedentary (little/no exercise)</span>
+                                </label>
+                                <label class="flex items-center space-x-3">
+                                    <input type="radio" name="exercise" value="light" class="h-5 w-5 text-blue-600 focus:ring-blue-500">
+                                    <span class="text-gray-700">Light (1-3 days/week)</span>
+                                </label>
+                                <label class="flex items-center space-x-3">
+                                    <input type="radio" name="exercise" value="moderate" class="h-5 w-5 text-blue-600 focus:ring-blue-500" checked>
+                                    <span class="text-gray-700">Moderate (3-5 days/week)</span>
+                                </label>
+                                <label class="flex items-center space-x-3">
+                                    <input type="radio" name="exercise" value="active" class="h-5 w-5 text-blue-600 focus:ring-blue-500">
+                                    <span class="text-gray-700">Very Active (6-7 days/week)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-3">Food Preference</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="radio" name="food-preference" value="home_based" class="sr-only peer" checked>
+                                    <div class="w-full p-4 border-2 border-gray-200 rounded-lg peer-checked:border-blue-500 peer-checked:bg-blue-50 transition">
+                                        <div class="flex items-center justify-center space-x-2">
+                                            <i class="fas fa-home text-xl text-orange-600"></i>
+                                            <span class="font-medium">Home-based meals</span>
+                                        </div>
+                                    </div>
+                                </label>
+
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="radio" name="food-preference" value="supplement_based" class="sr-only peer">
+                                    <div class="w-full p-4 border-2 border-gray-200 rounded-lg peer-checked:border-blue-500 peer-checked:bg-blue-50 transition">
+                                        <div class="flex items-center justify-center space-x-2">
+                                            <i class="fas fa-pills text-xl text-purple-600"></i>
+                                            <span class="font-medium">Supplement/Biotic based</span>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-3">Preferred Cuisines</label>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                                <label class="flex items-center space-x-3">
+                                    <input type="checkbox" name="cuisines" value="indian" class="h-5 w-5 text-blue-600 rounded focus:ring-blue-500">
+                                    <span class="text-gray-700">Indian</span>
+                                </label>
+                                <label class="flex items-center space-x-3">
+                                    <input type="checkbox" name="cuisines" value="mediterranean" class="h-5 w-5 text-blue-600 rounded focus:ring-blue-500">
+                                    <span class="text-gray-700">Mediterranean</span>
+                                </label>
+                                <label class="flex items-center space-x-3">
+                                    <input type="checkbox" name="cuisines" value="asian" class="h-5 w-5 text-blue-600 rounded focus:ring-blue-500">
+                                    <span class="text-gray-700">Asian</span>
+                                </label>
+                                <label class="flex items-center space-x-3">
+                                    <input type="checkbox" name="cuisines" value="western" class="h-5 w-5 text-blue-600 rounded focus:ring-blue-500">
+                                    <span class="text-gray-700">Western</span>
+                                </label>
+                                <label class="flex items-center space-x-3">
+                                    <input type="checkbox" name="cuisines" value="middle_eastern" class="h-5 w-5 text-blue-600 rounded focus:ring-blue-500">
+                                    <span class="text-gray-700">Middle Eastern</span>
+                                </label>
+                                <label class="flex items-center space-x-3">
+                                    <input type="checkbox" name="cuisines" value="latin" class="h-5 w-5 text-blue-600 rounded focus:ring-blue-500">
+                                    <span class="text-gray-700">Latin</span>
+                                </label>
+                                <label class="flex items-center space-x-3">
+                                    <input type="checkbox" name="cuisines" value="japanese" class="h-5 w-5 text-blue-600 rounded focus:ring-blue-500">
+                                    <span class="text-gray-700">Japanese</span>
+                                </label>
+                                <label class="flex items-center space-x-3">
+                                    <input type="checkbox" name="cuisines" value="any" class="h-5 w-5 text-blue-600 rounded focus:ring-blue-500">
+                                    <span class="text-gray-700">Any</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-3">Fasting Schedule</label>
+                            <div class="space-y-4">
+                                <div class="flex items-center">
+                                    <input id="fasting-none" name="fasting" type="radio" value="none" class="h-4 w-4 text-blue-600 focus:ring-blue-500" checked>
+                                    <label for="fasting-none" class="ml-3 block text-sm font-medium text-gray-700">No fasting</label>
+                                </div>
+
+                                <div class="flex items-center">
+                                    <input id="fasting-intermittent" name="fasting" type="radio" value="intermittent" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                                    <label for="fasting-intermittent" class="ml-3 block text-sm font-medium text-gray-700">Intermittent Fasting</label>
+                                </div>
+
+                                <div class="flex items-center">
+                                    <input id="fasting-religious" name="fasting" type="radio" value="religious" class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+                                    <label for="fasting-religious" class="ml-3 block text-sm font-medium text-gray-700">Religious/Cultural Fasting</label>
+                                </div>
+
+                                <div id="fasting-details-container" class="hidden pl-7">
+                                    <label for="fasting-details" class="block text-sm font-medium text-gray-700 mb-1">Please specify your fasting schedule</label>
+                                    <textarea id="fasting-details" name="fasting-details" rows="2"
+                                              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                              placeholder="e.g. 16:8 fasting, Ramadan fasting, etc."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between mt-10">
+                        <button type="button" onclick="prevSection(3, 2)" class="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition">
+                            <i class="fas fa-arrow-left mr-2"></i> Back
+                        </button>
+                        <button type="button" onclick="submitForm()" class="px-6 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition">
+                            Generate Diet Plan <i class="fas fa-magic ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Success Message with Data Display -->
+                <div class="form-section" id="section-success">
+                    <div class="py-8 px-6">
+                        <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-6">
+                            <i class="fas fa-check text-green-600 text-2xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-semibold text-gray-800 mb-3 text-center">AI Diet Plan Generated!</h2>
+                        <p class="text-gray-600 mb-6 text-center">Here's your personalized nutrition plan:</p>
+
+                        <div class="bg-gray-50 p-6 rounded-lg mb-8 text-left">
+                            <div id="form-data-display" class="text-sm text-gray-800 whitespace-pre-line"></div>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="button" onclick="resetForm()" class="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition mr-4">
+                                <i class="fas fa-redo mr-2"></i> Start New Assessment
+                            </button>
+                            <button type="button" onclick="downloadPDF()" class="px-6 py-3 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition">
+                                <i class="fas fa-file-pdf mr-2"></i> Download PDF
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Company Info -->
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center mr-3">
+                            <i class="fas fa-heartbeat text-white text-xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold">Halo Health Eats</h3>
+                    </div>
+                    <p class="text-gray-400 mb-4">AI-powered nutrition for healthier living.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/" class="text-gray-400 hover:text-white">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Services</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">About</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Features -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Features</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">AI Diet Plans</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Health Assessment</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">BMI Calculation</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Nutrition Tips</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact Us</h4>
+                    <ul class="space-y-2">
+                        <li class="flex items-center text-gray-400">
+                            <i class="fas fa-envelope mr-3"></i> hello@halohealtheats.com
+                        </li>
+                        <li class="flex items-center text-gray-400">
+                            <i class="fas fa-phone-alt mr-3"></i> (555) 123-4567
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 Halo Health Eats. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Total number of form sections
+        const totalSections = 3;
+
+        // Helper function to extract sections from the response
+        function extractSection(text, startMarker, endMarker) {
+            if (!text) return "Information not available";
+
+            const startIndex = text.indexOf(startMarker);
+            if (startIndex === -1) return "Section not found";
+
+            const startContent = startIndex + startMarker.length;
+            const endIndex = text.indexOf(endMarker, startContent);
+
+            if (endIndex === -1) {
+                return text.substring(startContent).trim();
+            } else {
+                return text.substring(startContent, endIndex).trim();
+            }
+        }
+
+        // Handle section navigation
+        function nextSection(current, next) {
+            // Validate current section before proceeding
+            if (validateSection(current)) {
+                document.getElementById(`section-${current}`).classList.remove('active');
+                document.getElementById(`section-${next}`).classList.add('active');
+                updateProgress(next);
+            }
+        }
+
+        function prevSection(current, prev) {
+            document.getElementById(`section-${current}`).classList.remove('active');
+            document.getElementById(`section-${prev}`).classList.add('active');
+            updateProgress(prev);
+        }
+
+        // Update progress bar
+        function updateProgress(currentSection) {
+            const progressPercentage = Math.round((currentSection / totalSections) * 100);
+            document.getElementById('progress-bar').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-percentage').textContent = `${progressPercentage}%`;
+        }
+
+        // Validate form section
+        function validateSection(sectionNum) {
+            if (sectionNum === 1) {
+                const height = document.getElementById('height').value;
+                const weight = document.getElementById('weight').value;
+                const age = document.getElementById('age').value;
+                const budget = document.getElementById('budget').value;
+
+                if (!height || !weight || !age || !budget) {
+                    alert('Please fill in all required fields');
+                    return false;
+                }
+
+                if (height < 100 || height > 250) {
+                    alert('Please enter a valid height between 100cm and 250cm');
+                    return false;
+                }
+
+                if (weight < 30 || weight > 200) {
+                    alert('Please enter a valid weight between 30kg and 200kg');
+                    return false;
+                }
+
+                if (age < 10 || age > 120) {
+                    alert('Please enter a valid age between 10 and 120 years');
+                    return false;
+                }
+
+                if (budget < 0) {
+                    alert('Budget cannot be negative');
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        // Handle fasting schedule radio buttons
+        document.querySelectorAll('input[name="fasting"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const detailsContainer = document.getElementById('fasting-details-container');
+                if (this.value === 'none') {
+                    detailsContainer.classList.add('hidden');
+                } else {
+                    detailsContainer.classList.remove('hidden');
+                }
+            });
+        });
+
+        // Submit form
+        function submitForm() {
+            if (validateSection(3)) {
+                // Collect form data
+                const formData = new FormData(document.getElementById('health-form'));
+                const data = {};
+
+                // Handle checkboxes for cuisines
+                data.cuisines = [];
+                document.querySelectorAll('input[name="cuisines"]:checked').forEach(checkbox => {
+                    data.cuisines.push(checkbox.value);
+                });
+
+                // Add other form values
+                formData.forEach((value, key) => {
+                    if (key !== 'cuisines') {
+                        data[key] = value;
+                    }
+                });
+
+                // Add radio button values explicitly
+                data.gender = document.querySelector('input[name="gender"]:checked')?.value || 'male';
+                data.exercise = document.querySelector('input[name="exercise"]:checked')?.value || 'moderate';
+                data['diet-goal'] = document.querySelector('input[name="diet-goal"]:checked')?.value || 'balanced';
+                data['diet-type'] = document.querySelector('input[name="diet-type"]:checked')?.value || 'vegetarian';
+                data['food-preference'] = document.querySelector('input[name="food-preference"]:checked')?.value || 'home_based';
+                data.fasting = document.querySelector('input[name="fasting"]:checked')?.value || 'none';
+
+                // Store user data globally for PDF generation
+                window.currentUserData = data;
+
+                // Show success section
+                document.getElementById('section-3').classList.remove('active');
+                document.getElementById('section-success').classList.add('active');
+                document.getElementById('progress-bar').style.width = '100%';
+                document.getElementById('progress-percentage').textContent = '100%';
+
+                // Show loading message
+                document.getElementById('form-data-display').innerHTML = `
+                    <div style="text-align: center; color: #2563eb; font-size: 18px; padding: 20px;">
+                        <i class="fas fa-spinner fa-spin mr-2"></i>
+                        Generating your personalized AI diet plan...
+                        <div style="margin-top: 10px; font-size: 14px; color: #666;">
+                            This may take 10-30 seconds
+                        </div>
+                    </div>
+                `;
+
+                // Call Flask API
+                fetch('/generate_diet', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.json())
+                .then(result => {
+                    // Store result globally for PDF generation
+                    window.currentResult = result;
+
+                    if (result.success) {
+                        // Display the diet plan with proper sections
+                        document.getElementById('form-data-display').innerHTML = `
+                            <div style="text-align: left;">
+                                <div style="background: linear-gradient(135deg, #3b82f6, #10b981); color: white; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                                    <h3 style="margin: 0 0 10px 0; font-size: 20px;"><i class="fas fa-chart-line mr-2"></i>Your Health Summary</h3>
+                                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; font-size: 14px;">
+                                        <div><strong>BMR:</strong> ${Math.round(result.bmr)} calories/day</div>
+                                        <div><strong>BMI:</strong> ${result.bmi} (${result.bmi_category})</div>
+                                        <div><strong>Target Calories:</strong> ${result.daily_calories}/day</div>
+                                        <div><strong>Adjustment:</strong> ${result.calorie_adjustment || 'Standard'}</div>
+                                    </div>
+                                    ${result.high_risk ? `<div style="margin-top: 10px; padding: 10px; background: rgba(239, 68, 68, 0.2); border-radius: 6px; border-left: 3px solid #ef4444;"><strong>⚠️ Medical Alert:</strong> ${result.medical_warning}</div>` : ''}
+                                </div>
+
+                                <!-- Clinical Assessment Section -->
+                                <div style="background: #f0f9ff; padding: 20px; border-radius: 8px; border-left: 4px solid #3b82f6; margin-bottom: 20px;">
+                                    <h3 style="color: #1e40af; margin: 0 0 15px 0; font-size: 18px;">
+                                        <i class="fas fa-microscope mr-2"></i>Clinical Assessment
+                                    </h3>
+                                    <div style="white-space: pre-line; line-height: 1.6; font-size: 14px;">
+                                        ${extractSection(result.diet_plan, '🔬 CLINICAL ASSESSMENT:', '📊 PERSONALIZED MACRONUTRIENT PLAN:')}
+                                    </div>
+                                </div>
+
+                                <!-- Macronutrient Plan Section -->
+                                <div style="background: #f0fdf4; padding: 20px; border-radius: 8px; border-left: 4px solid #10b981; margin-bottom: 20px;">
+                                    <h3 style="color: #047857; margin: 0 0 15px 0; font-size: 18px;">
+                                        <i class="fas fa-chart-pie mr-2"></i>Macronutrient Plan
+                                    </h3>
+                                    <div style="white-space: pre-line; line-height: 1.6; font-size: 14px;">
+                                        ${extractSection(result.diet_plan, '📊 PERSONALIZED MACRONUTRIENT PLAN:', '🍽️ DAILY MEAL PLAN')}
+                                    </div>
+                                </div>
+
+                                <!-- Daily Meal Plan Section -->
+                                <div style="background: #fffbeb; padding: 20px; border-radius: 8px; border-left: 4px solid #f59e0b; margin-bottom: 20px;">
+                                    <h3 style="color: #b45309; margin: 0 0 15px 0; font-size: 18px;">
+                                        <i class="fas fa-utensils mr-2"></i>Daily Meal Plan
+                                    </h3>
+                                    <div style="white-space: pre-line; line-height: 1.6; font-size: 14px;">
+                                        ${extractSection(result.diet_plan, '🍽️ DAILY MEAL PLAN', '🚫 FOODS TO STRICTLY AVOID:')}
+                                    </div>
+                                </div>
+
+                                <!-- Foods to Avoid Section -->
+                                <div style="background: #fef2f2; padding: 20px; border-radius: 8px; border-left: 4px solid #ef4444; margin-bottom: 20px;">
+                                    <h3 style="color: #b91c1c; margin: 0 0 15px 0; font-size: 18px;">
+                                        <i class="fas fa-ban mr-2"></i>Foods to Avoid
+                                    </h3>
+                                    <div style="white-space: pre-line; line-height: 1.6; font-size: 14px;">
+                                        ${extractSection(result.diet_plan, '🚫 FOODS TO STRICTLY AVOID:', '✅ THERAPEUTIC FOODS TO EMPHASIZE:')}
+                                    </div>
+                                </div>
+
+                                <!-- Therapeutic Foods Section -->
+                                <div style="background: #ecfdf5; padding: 20px; border-radius: 8px; border-left: 4px solid #10b981; margin-bottom: 20px;">
+                                    <h3 style="color: #047857; margin: 0 0 15px 0; font-size: 18px;">
+                                        <i class="fas fa-check-circle mr-2"></i>Therapeutic Foods
+                                    </h3>
+                                    <div style="white-space: pre-line; line-height: 1.6; font-size: 14px;">
+                                        ${extractSection(result.diet_plan, '✅ THERAPEUTIC FOODS TO EMPHASIZE:', '⏰ MEAL TIMING STRATEGY:')}
+                                    </div>
+                                </div>
+
+                                <!-- Additional Guidance Section -->
+                                <div style="background: #f8fafc; padding: 20px; border-radius: 8px; border-left: 4px solid #64748b; margin-bottom: 20px;">
+                                    <h3 style="color: #334155; margin: 0 0 15px 0; font-size: 18px;">
+                                        <i class="fas fa-info-circle mr-2"></i>Additional Guidance
+                                    </h3>
+                                    <div style="display: grid; grid-template-columns: 1fr; gap: 15px;">
+                                        <div>
+                                            <h4 style="font-size: 15px; margin: 0 0 8px 0; color: #475569;"><i class="fas fa-clock mr-2"></i>Meal Timing</h4>
+                                            <div style="white-space: pre-line; line-height: 1.6; font-size: 14px;">
+                                                ${extractSection(result.diet_plan, '⏰ MEAL TIMING STRATEGY:', '💧 HYDRATION PLAN:')}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h4 style="font-size: 15px; margin: 0 0 8px 0; color: #475569;"><i class="fas fa-tint mr-2"></i>Hydration Plan</h4>
+                                            <div style="white-space: pre-line; line-height: 1.6; font-size: 14px;">
+                                                ${extractSection(result.diet_plan, '💧 HYDRATION PLAN:', '🔄 MONITORING & ADJUSTMENTS:')}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h4 style="font-size: 15px; margin: 0 0 8px 0; color: #475569;"><i class="fas fa-sync-alt mr-2"></i>Monitoring & Adjustments</h4>
+                                            <div style="white-space: pre-line; line-height: 1.6; font-size: 14px;">
+                                                ${extractSection(result.diet_plan, '🔄 MONITORING & ADJUSTMENTS:', '⚠️ IMPORTANT MEDICAL DISCLAIMERS:')}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div style="margin-top: 20px; padding: 15px; background: #fef3c7; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                                    <h4 style="margin: 0 0 10px 0; color: #92400e;">
+                                        <i class="fas fa-exclamation-triangle mr-2"></i>Important Medical Disclaimers
+                                    </h4>
+                                    <div style="margin: 0; font-size: 13px; color: #92400e; white-space: pre-line; line-height: 1.6;">
+                                        ${extractSection(result.diet_plan, '⚠️ IMPORTANT MEDICAL DISCLAIMERS:', '═══════════')}
+                                    </div>
+                                </div>
+
+                                ${result.validation && !result.validation.valid ? `
+                                <div style="margin-top: 15px; padding: 15px; background: #fef3c7; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                                    <h4 style="margin: 0 0 10px 0; color: #92400e;">
+                                        <i class="fas fa-info-circle mr-2"></i>Format Notice
+                                    </h4>
+                                    <p style="margin: 0; font-size: 13px; color: #92400e;">
+                                        ${result.format_warning}
+                                    </p>
+                                </div>
+                                ` : ''}
+                            </div>
+                        `;
+                    } else {
+                        document.getElementById('form-data-display').innerHTML = `
+                            <div style="text-align: center; color: #dc2626; padding: 20px;">
+                                <i class="fas fa-exclamation-circle text-3xl mb-4"></i>
+                                <h3>Error Generating Diet Plan</h3>
+                                <p>${result.error}</p>
+                                <button onclick="submitForm()" class="px-4 py-2 bg-blue-600 text-white rounded mt-4">
+                                    Try Again
+                                </button>
+                            </div>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('form-data-display').innerHTML = `
+                        <div style="text-align: center; color: #dc2626; padding: 20px;">
+                            <i class="fas fa-exclamation-circle text-3xl mb-4"></i>
+                            <h3>Connection Error</h3>
+                            <p>Unable to connect to the server. Please check your internet connection and try again.</p>
+                            <p style="font-size: 12px; color: #666; margin-top: 10px;">Error: ${error.message}</p>
+                            <button onclick="submitForm()" class="px-4 py-2 bg-blue-600 text-white rounded mt-4">
+                                Try Again
+                            </button>
+                        </div>
+                    `;
+                });
+
+                // Log for debugging
+                console.log('Form data submitted:', data);
+            }
+        }
+
+        // Download PDF function
+        function downloadPDF() {
+            if (!window.currentUserData || !window.currentResult) {
+                alert('No diet plan data available. Please generate a diet plan first.');
+                return;
+            }
+
+            // Show loading
+            const button = event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Generating PDF...';
+            button.disabled = true;
+
+            fetch('/download_pdf', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    user_data: window.currentUserData,
+                    result: window.currentResult
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.blob();
+                } else {
+                    throw new Error('Failed to generate PDF');
+                }
+            })
+            .then(blob => {
+                // Create download link
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = url;
+                a.download = `diet_plan_${new Date().toISOString().slice(0,10)}.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+
+                // Reset button
+                button.innerHTML = originalText;
+                button.disabled = false;
+            })
+            .catch(error => {
+                console.error('Error downloading PDF:', error);
+                alert('Failed to download PDF. Please try again.');
+
+                // Reset button
+                button.innerHTML = originalText;
+                button.disabled = false;
+            });
+        }
+
+        // Reset form
+        function resetForm() {
+            document.getElementById('health-form').reset();
+            document.getElementById('section-success').classList.remove('active');
+            document.getElementById('section-1').classList.add('active');
+            document.getElementById('fasting-details-container').classList.add('hidden');
+            updateProgress(1);
+        }
+
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button')?.addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>
