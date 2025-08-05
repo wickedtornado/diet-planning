@@ -2,10 +2,6 @@
 
 > Personalized nutrition planning powered by AI and medical intelligence
 
-[![🚀 Live Demo](https://img.shields.io/badge/🚀%20Live%20Demo-Try%20Now-brightgreen?style=for-the-badge)](https://your-railway-url.railway.app)
-[![⭐ Star this repo](https://img.shields.io/github/stars/yourusername/halo-health-eats?style=for-the-badge&logo=github)](https://github.com/yourusername/halo-health-eats)
-
----
 
 ## ✨ Key Features
 
@@ -48,7 +44,5 @@
 <div align="center">
 
 **🎉 Built with ❤️ for better health through intelligent nutrition**
-
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/your-template)
 
 </div>
